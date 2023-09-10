@@ -48,7 +48,7 @@ resource "aws_security_group" "blog" {
   name        = "blog"
   description = "Allow http and https"
 
-  vpc_id = module.vpc.public_subnets[0]
+  vpc_id = module.vpc.aws_vpc.dev.id #module.vpc.public_subnets[0]
 }
 
 resource "aws_security_group_rule" "blog_http_in" {
