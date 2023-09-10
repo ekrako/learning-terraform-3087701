@@ -38,7 +38,7 @@ resource "aws_instance" "blog" {
   instance_type = var.instance_type
 
   vpc_security_group_ids = [aws_security_group.blog.id]
-  
+  subnet_id              = module.vpc.public_subnets[0]
   tags = {
     Name = "Blog"
   }
