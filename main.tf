@@ -79,7 +79,7 @@ module "autoscaling" {
   
   
   vpc_zone_identifier = module.vpc.public_subnets
-  target_group_arns   = module.blog.alb.target_group_arns
+  target_group_arns   = module.alb.target_group_arns
   security_groups     = [aws_security_group.blog.id]
 }
 
