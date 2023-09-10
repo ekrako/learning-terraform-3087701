@@ -50,12 +50,6 @@ module "alb" {
       backend_protocol = "HTTP"
       backend_port     = 80
       target_type      = "instance"
-      targets = {
-        my_target = {
-          target_id = aws_instance.blog.id
-          port = 80
-        }
-      }
     }
   ]
 
@@ -73,15 +67,21 @@ module "alb" {
 }
 
 
-resource "aws_instance" "blog" {
-  ami           = data.aws_ami.app_ami.id
+module "autoscaling" {
+  source  = "terraform-aws-modules/autoscaling/aws"
+  version = "6.10.0"
+  
+  Name          = "Blog"
+  min_size      = 1
+  max_size      = 2
+  image_id      = data.aws_ami.app_ami.id
   instance_type = var.instance_type
-
-  vpc_security_group_ids = [aws_security_group.blog.id]
-  subnet_id              = module.vpc.public_subnets[0]
-  tags = {
-    Name = "Blog"
-  }
+  
+  
+  vpc_zone_identifier = module.vpc.public_subnets
+  target_group_arns   = module.blog.alb.target_group_arns
+  security_groups     = [aws_security_group.blog.id]
+  subnet_ids          = module.vpc.public_subnets
 }
 
 resource "aws_security_group" "blog" {
