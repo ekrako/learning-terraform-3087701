@@ -36,7 +36,7 @@ module "alb" {
   source  = "terraform-aws-modules/alb/aws"
   version = "~> 8.0"
 
-  Name = "blog-alb"
+  name = "blog-alb"
 
   load_balancer_type = "application"
 
@@ -81,7 +81,6 @@ module "autoscaling" {
   vpc_zone_identifier = module.vpc.public_subnets
   target_group_arns   = module.blog.alb.target_group_arns
   security_groups     = [aws_security_group.blog.id]
-  subnet_ids          = module.vpc.public_subnets
 }
 
 resource "aws_security_group" "blog" {
