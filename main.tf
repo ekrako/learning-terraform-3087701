@@ -71,12 +71,11 @@ module "autoscaling" {
   source  = "terraform-aws-modules/autoscaling/aws"
   version = "6.10.0"
   
-  name          = "Blog"
+  name          = "blog"
   min_size      = 1
   max_size      = 2
   image_id      = data.aws_ami.app_ami.id
   instance_type = var.instance_type
-  
   
   vpc_zone_identifier = module.vpc.public_subnets
   target_group_arns   = module.alb.target_group_arns
