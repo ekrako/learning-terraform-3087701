@@ -23,7 +23,7 @@ module "vpc" {
   azs             = ["us-west-2a", "us-west-2b", "us-west-2c"]
   public_subnets  = ["10.0.101.0/24", "10.0.102.0/24", "10.0.103.0/24"]
   private_subnets = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
-
+  
   enable_nat_gateway = true
 
   tags = {
@@ -49,7 +49,7 @@ resource "aws_security_group" "blog" {
   name        = "blog"
   description = "Allow http and https"
 
-  vpc_id = module.vpc.dev.id
+  vpc_id = module.vpc.aws_subnet.public[0]
 }
 
 resource "aws_security_group_rule" "blog_http_in" {
